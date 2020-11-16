@@ -24,6 +24,7 @@ def login_post():
         return redirect(url_for('auth.login')) # if the user doesn't exist or password is wrong, reload the page
 
     # if the above check passes, then we know the user has the right credentials
+    login_user(user, remember=remember)
     return redirect(url_for('main.profile'))
 
 @auth.route('/signup')
