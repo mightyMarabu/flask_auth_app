@@ -13,3 +13,8 @@ def index():
 def profile():
     return render_template('profile.html', name=current_user.name)
 
+@main.route('/test/')
+def test():
+    return render_template('test.html')
+
+    
