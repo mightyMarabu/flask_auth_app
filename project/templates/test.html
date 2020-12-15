@@ -1,7 +1,22 @@
 <html>
+<head>
+    <link rel="stylesheet" href="https://openlayers.org/en/latest/css/ol.css" type="text/css">
+    <style>
+        #map {
+          width: 400px;
+          height: 250px;
+        }
+      </style>
+</head>
 <body>
   <h1>Simple web app</h1>
 
+  <div id="map"></div>
+
   <script src="{{ url_for('static', filename='bundle.js') }}"></script>
+
+  
+ 
+
 </body>
 </html>
