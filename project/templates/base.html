@@ -7,6 +7,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Flask Auth Example</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css" />
+
+    <link rel="stylesheet" href="https://openlayers.org/en/latest/css/ol.css" type="text/css">
+    <style>
+        #map {
+          width: 400px;
+          height: 250px;
+        }
+      </style>
+
 </head>
 
 <body>
@@ -20,6 +29,9 @@
                         <div class="navbar-end">
                             <a href="{{ url_for('main.index') }}" class="navbar-item">
                                 Home
+                            </a>
+                            <a href="{{ url_for('main.test') }}" class="navbar-item">
+                                test
                             </a>
                             {% if current_user.is_authenticated %}
                             <a href="{{ url_for('main.profile') }}" class="navbar-item">
