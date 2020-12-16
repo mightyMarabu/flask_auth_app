@@ -22,10 +22,9 @@ RUN cd flask_auth_app/project/ && npm install --save-dev webpack && npm install 
 EXPOSE 80
 
 ENV NAME world
-CMD [ "npm", "run", "watch" ]
-#RUN npm run watch
+#CMD [ "npm", "run", "watch" ]
+#RUN npm run build
 RUN cd ..
-RUN export FLASK_APP=project
-RUN flask run
+CMD ["sh", "flask_auth_app/start.sh"]
 #RUN export FLASK_APP=project
 #RUN flask run
