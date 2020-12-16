@@ -10,7 +10,7 @@ WORKDIR /
 
 RUN pip3 install --upgrade pip
 RUN pip3 install flask numpy requests pandas psycopg2-binary mysql-connector-python pymysql
-RUN pip3 install flask_login
+RUN pip3 install flask_login flask_sqlalchemy
 
 RUN git clone https://github.com/mightyMarabu/flask_auth_app.git
 
@@ -25,6 +25,7 @@ ENV NAME world
 CMD [ "npm", "run", "watch" ]
 #RUN npm run watch
 RUN cd ..
-CMD ["python3","flask_auth_app/project/main.py"]
+RUN export FLASK_APP=project
+RUN flask run
 #RUN export FLASK_APP=project
 #RUN flask run
