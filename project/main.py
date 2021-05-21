@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify
 from flask_login import login_required, current_user
 from . import db
 from .models import Test
@@ -19,7 +19,7 @@ def test():
     return render_template('test.html')
 
 @main.route('/test', methods=['POST'])
-def signup_post():
+def form_post():
     something = request.form.get('something')
     flash('Here is what you write: ',something)
     
@@ -27,6 +27,17 @@ def signup_post():
 
     db.session.add(new_content)
     db.session.commit()
+
+@main.route('/test1', methods=['POST'])
+def json_post():
+    someJson = request.form
+    #flash('Here is what you write: ',someJson)
+    print (someJson)
+    return jsonify(someJson)
+    #new_content = Test(content=something)
+
+    #db.session.add(new_content)
+    #db.session.commit()
 
     
 #    user = User.query.filter_by(email=email).first() # if this returns a user, then the email already exists in database
