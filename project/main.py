@@ -48,7 +48,6 @@ def db_post():
     saveMyData(someJson)
     return jsonify("Data saved!")
   
-  
 
  #   return redirect(url_for('main.test'))
     
