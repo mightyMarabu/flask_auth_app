@@ -53,7 +53,7 @@ var style = {
   }),
   'MultiLineString': new Style({
     stroke: new Stroke({
-      color: '#0f0',
+      color: '#c008cc',
       width: 3,
     }),
   }),
