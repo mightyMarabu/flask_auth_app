@@ -21,9 +21,56 @@ import Point from 'ol/geom/Point';
 import TileJSON from 'ol/source/TileJSON';
 import VectorSource from 'ol/source/Vector';
 //import View from 'ol/View';
-import {Icon, Style} from 'ol/style';
+import {Icon, Style, Circle as CircleStyle, Fill, Stroke,} from 'ol/style';
 import {Tile as TileLayer, Vector as VectorLayer} from 'ol/layer';
 
+import GPX from 'ol/format/GPX';
+
+import {useGeographic} from 'ol/proj';
+
+useGeographic();
+
+
+////////////////////////////////////
+var style = {
+  'Point': new Style({
+    image: new CircleStyle({
+      fill: new Fill({
+        color: 'rgba(255,255,0,0.4)',
+      }),
+      radius: 5,
+      stroke: new Stroke({
+        color: '#ff0',
+        width: 1,
+      }),
+    }),
+  }),
+  'LineString': new Style({
+    stroke: new Stroke({
+      color: '#f00',
+      width: 3,
+    }),
+  }),
+  'MultiLineString': new Style({
+    stroke: new Stroke({
+      color: '#0f0',
+      width: 3,
+    }),
+  }),
+};
+
+var gpxLayer = new VectorLayer({
+  source: new VectorSource({
+    url: 'static/data/track_harz.gpx',
+    format: new GPX(),
+  }),
+  style: function (feature) {
+    return style[feature.getGeometry().getType()];
+  },
+});
+
+
+////////////////////////////////////
 var baselayer = new TileLayer({
     source: new OSM()
     });
@@ -34,9 +81,15 @@ var iconFeature = new Feature({
     population: 4000,
     rainfall: 500,
     });
+  var newIconFeature = new Feature({
+    geometry: new Point([9, 51]),
+    name: 'hesse Island',
+    population: 4000,
+    rainfall: 500,
+    });
 
 var vectorSource = new VectorSource({
-    features: [iconFeature],
+    features: [iconFeature, newIconFeature],
     });
 
 var vectorLayer = new VectorLayer({
@@ -46,10 +99,22 @@ var vectorLayer = new VectorLayer({
 const map = new Map({
   target: 'map',
   layers: [
-  vectorLayer, baselayer
+  baselayer, vectorLayer, gpxLayer
   ],
   view: new View({
-    center: [0, 0],
-    zoom: 0
+    center: [9, 50],
+    zoom: 5
   })
 });
+
+//////////////////////////////////////////////////// 
+/*
+var dict = {typename : "test" , content:"irgendwas"};
+
+    $.ajax({
+        type: "POST", 
+        url: "http://192.168.3.45:2100/saveMyJson", //localhost Flask
+        data : JSON.stringify(dict),
+        contentType: "application/json",
+    });
+*/

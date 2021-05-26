@@ -5,7 +5,7 @@
   "main": "webpack.config.js",
   "dependencies": {
     "lodash": "^4.17.20",
-    "ol": "^6.4.3"
+    "ol": "^6.5.0"
   },
   "devDependencies": {
     "webpack": "^5.10.3",
