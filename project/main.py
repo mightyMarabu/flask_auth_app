@@ -25,19 +25,19 @@ def test():
 @main.route('/test', methods=['POST'])
 def form_post():
     something = request.form.get('something')
-    flash('Here is what you write: ',something)
-    
+    #flash('Here is what you write: ',something)
     new_content = Test(content=something)
 
     db.session.add(new_content)
     db.session.commit()
+    return jsonify("Data saved to sqlite-DB!")
 
 @main.route('/test1', methods=['POST'])
 def json_post():
     someJson = request.form
     #flash('Here is what you write: ',someJson)
     print (someJson)
-    return jsonify(someJson)
+    return jsonify(someJson, "this was saved...")
 
 @main.route('/test2', methods=['POST'])
 def db_post():
@@ -47,6 +47,16 @@ def db_post():
     someJson = json.dumps(someJson)
     saveMyData(someJson)
     return jsonify("Data saved!")
+
+@main.route('/test3', methods=['POST'])
+def saveMyJsonToPostgres():
+    myJson = request.get_json()
+    print(myJson)
+    myJson = json.dumps(myJson)
+    saveMyData(myJson)
+    return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
+    #return jsonify("data saved!")
+
   
 
  #   return redirect(url_for('main.test'))
