@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify
 from flask_login import login_required, current_user
 from . import db
-from .models import Test
+from .models import Test, Point
 
 from .db_conn import saveMyData
 
@@ -27,10 +27,20 @@ def form_post():
     something = request.form.get('something')
     #flash('Here is what you write: ',something)
     new_content = Test(content=something)
-
     db.session.add(new_content)
     db.session.commit()
     return jsonify("Data saved to sqlite-DB!")
+
+########################################################################
+@main.route('/savePoint/<x>/<y>/<pointName>/', methods=['POST','GET'])
+def saveMyPoint(x,y,pointName):
+    #something = request.form.get('something')
+    #flash('Here is what you write: ',something)
+    new_point = Point(lng=x, lat=y, name=pointName)
+    db.session.add(new_point)
+    db.session.commit()
+    return jsonify("Point saved!")
+##########################################################################
 
 @main.route('/test1', methods=['POST'])
 def json_post():

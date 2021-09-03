@@ -10,3 +10,9 @@ class User(UserMixin, db.Model):
 class Test(db.Model):
     id = db.Column(db.Integer, primary_key=True) # primary keys are required by SQLAlchemy
     content = db.Column(db.String(100)) 
+
+class Point(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    lng = db.Column(db.Float)
+    lat = db.Column(db.Float)
+    name = db.Column(db.String(100))

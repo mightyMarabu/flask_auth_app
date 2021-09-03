@@ -107,6 +107,22 @@ const map = new Map({
   })
 });
 
+map.on('singleclick', function (evt) {
+  console.log(evt.coordinate);
+  var xy = evt.coordinate;
+//  console.log(xy);
+  $.getJSON({
+    url: `/savePoint/${xy[0]}/${xy[1]}/${$("#pointName").val()}/`,
+    success: data => {
+        console.log(data);
+        location.reload();
+    }
+  }).error(function(jqXHR, textStatus, errorThrown) {
+      console.log("error " + textStatus);
+      console.log("incoming Text " + jqXHR.responseText);
+  });
+});
+
 //////////////////////////////////////////////////// 
 /*
 var dict = {typename : "test" , content:"irgendwas"};

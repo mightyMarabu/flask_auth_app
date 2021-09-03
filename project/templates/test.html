@@ -12,9 +12,27 @@
     
   <div class="columns">
     <div class="column">
-      <div id="map"></div>
+      <div id="map">
+        <script>
+        map.on('pointermove', function(evt) {
+          if (evt.dragging){
+              return;
+          }
+        });
+      </script>
+
+      </div>
     </div>
     <div class="column">
+      
+        <div class="field">
+          <div class="control">
+            <input class="input is-large" type="text" id="pointName" placeholder="Point Name">
+          </div>
+        </div>
+        
+      
+      
       <form method="POST" action="/test">
         <div class="field">
           <div class="control">

@@ -10,3 +10,4 @@ def saveMyData(json):
     connect.commit()
     connect.close()
     print("data saved")
+
