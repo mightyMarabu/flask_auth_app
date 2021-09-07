@@ -1,11 +1,15 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify
 from flask_login import login_required, current_user
-from . import db
-from .models import Test, Point
 
-from .db_conn import saveMyData
+from . import db
+from .models import Test, Point #, PointSchema
+
+from .db_conn import saveMyData, getMyPoints
 
 import json
+
+import os.path
+import sqlite3
 
 main = Blueprint('main', __name__)
 
@@ -31,6 +35,7 @@ def form_post():
     db.session.commit()
     return jsonify("Data saved to sqlite-DB!")
 
+
 ########################################################################
 @main.route('/savePoint/<x>/<y>/<pointName>/', methods=['POST','GET'])
 def saveMyPoint(x,y,pointName):
@@ -40,6 +45,18 @@ def saveMyPoint(x,y,pointName):
     db.session.add(new_point)
     db.session.commit()
     return jsonify("Point saved!")
+
+@main.route('/getPoints', methods=['POST','GET'])
+def getPoints():
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    db_path = os.path.join(BASE_DIR, "db.sqlite")
+    with sqlite3.connect(db_path) as db:
+        #connection = sqlite3.connect("db.sqlite") 
+        cursor = db.cursor()
+        cursor.execute("SELECT * FROM Point;") 
+        result = cursor.fetchall() 
+        return jsonify({"points": result})
+
 ##########################################################################
 
 @main.route('/test1', methods=['POST'])

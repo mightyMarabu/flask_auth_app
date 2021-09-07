@@ -16,3 +16,7 @@ class Point(db.Model):
     lng = db.Column(db.Float)
     lat = db.Column(db.Float)
     name = db.Column(db.String(100))
+
+#class PointSchema(ma.ModelSchema):
+ #   class Meta:
+  #      model = Point

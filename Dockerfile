@@ -10,7 +10,7 @@ WORKDIR /
 
 RUN pip3 install --upgrade pip
 RUN pip3 install flask numpy requests pandas psycopg2-binary mysql-connector-python pymysql
-RUN pip3 install flask_login flask_sqlalchemy
+RUN pip3 install flask_login flask_sqlalchemy marshmallow-sqlalchemy flask-marshmallow
 
 RUN git clone https://github.com/mightyMarabu/flask_auth_app.git
 
