@@ -12,26 +12,32 @@ document.body.appendChild(component());
 /* ********************OL************************* */
 //import 'ol/ol.css';
 import {Map, View} from 'ol';
-//import TileLayer from 'ol/layer/Tile';
+
 import OSM from 'ol/source/OSM';
 import Feature from 'ol/Feature';
-//import Map from 'ol/Map';
+
 import Overlay from 'ol/Overlay';
 import Point from 'ol/geom/Point';
 import TileJSON from 'ol/source/TileJSON';
 import VectorSource from 'ol/source/Vector';
-//import View from 'ol/View';
-import {Icon, Style, Circle as CircleStyle, Fill, Stroke,} from 'ol/style';
+
+import {Icon, Style, Circle as CircleStyle, Fill, Stroke, Text} from 'ol/style';
+
 import {Tile as TileLayer, Vector as VectorLayer} from 'ol/layer';
 
+import GeoJSON from 'ol/format/GeoJSON';
 import GPX from 'ol/format/GPX';
 
 import {useGeographic} from 'ol/proj';
 
 useGeographic();
 
+//////////////////////////////////////
+
+
 
 ////////////////////////////////////
+
 var style = {
   'Point': new Style({
     image: new CircleStyle({
@@ -57,7 +63,22 @@ var style = {
       width: 3,
     }),
   }),
-};
+  'Text': new Text({
+      font: 'bold 11px "Open Sans", "Arial Unicode MS", "sans-serif"',
+      placement: 'point',
+      fill: new Fill({color: '#fff'}),
+      stroke: new Stroke({color: '#000', width: 2}),
+  }),
+
+  };
+
+  
+  var styleFunction = function(feature, resulution) {
+    style.getText().setText(feature.get('name'));
+    return style;
+  };
+  
+/////////////////////////////////////////////////////////
 
 var gpxLayer = new VectorLayer({
   source: new VectorSource({
@@ -69,6 +90,19 @@ var gpxLayer = new VectorLayer({
   },
 });
 
+////////////////////////////////////////////////////////////
+
+
+var pointLayer = new VectorLayer({
+  source: new VectorSource({
+    url: `/getPoints`,
+    format: new GeoJSON(),
+  }),
+//  style: function (feature) {
+//    return style[feature.getGeometry().getType()];
+//  style: styleFunction,
+//  },
+});
 
 ////////////////////////////////////
 var baselayer = new TileLayer({
@@ -82,8 +116,8 @@ var iconFeature = new Feature({
     rainfall: 500,
     });
   var newIconFeature = new Feature({
-    geometry: new Point([9, 51]),
-    name: 'hesse Island',
+    geometry: new Point([9.5, 51.3]),
+    name: 'Kassel Island',
     population: 4000,
     rainfall: 500,
     });
@@ -96,10 +130,10 @@ var vectorLayer = new VectorLayer({
     source: vectorSource,
     });
 
-const map = new Map({
+var map = new Map({
   target: 'map',
   layers: [
-  baselayer, vectorLayer, gpxLayer
+  baselayer, vectorLayer, gpxLayer, pointLayer
   ],
   view: new View({
     center: [9, 50],
@@ -124,6 +158,22 @@ map.on('singleclick', function (evt) {
 });
 
 //////////////////////////////////////////////////// 
+
+map.on('pointermove', showInfo);
+
+const info = document.getElementById('info');
+function showInfo(event) {
+  const features = map.getFeaturesAtPixel(event.pixel);
+  if (features.length == 0) {
+    info.innerText = '';
+    info.style.opacity = 0;
+    return;
+  }
+  const properties = features[0].getProperties();
+  info.innerText = JSON.stringify(properties['properties', null, 2);
+  info.style.opacity = 1;
+}
+
 /*
 var dict = {typename : "test" , content:"irgendwas"};
 

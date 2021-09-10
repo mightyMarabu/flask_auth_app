@@ -55,7 +55,19 @@ def getPoints():
         cursor = db.cursor()
         cursor.execute("SELECT * FROM Point;") 
         result = cursor.fetchall() 
-        return jsonify({"points": result})
+        #return jsonify({"points": result})
+        return jsonify(
+                        {
+                        "type": "Feature",
+                        "geometry": {
+                            "type": "Point",
+                            "coordinates": [result[0][1], result[0][2]]
+                        },
+                        "properties": {
+                            "name": result[0][3]
+                        }
+                        }
+        )
 
 ##########################################################################
 
