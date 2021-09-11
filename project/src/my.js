@@ -47,7 +47,7 @@ var style = {
       radius: 5,
       stroke: new Stroke({
         color: '#ff0',
-        width: 1,
+        width: 2,
       }),
     }),
   }),
@@ -80,31 +80,57 @@ var style = {
   
 /////////////////////////////////////////////////////////
 
-var gpxLayer = new VectorLayer({
-  source: new VectorSource({
-    url: 'static/data/track_harz.gpx',
-    format: new GPX(),
-  }),
-  style: function (feature) {
-    return style[feature.getGeometry().getType()];
-  },
-});
 
 ////////////////////////////////////////////////////////////
-
-
-var pointLayer = new VectorLayer({
-  source: new VectorSource({
+var geojson = {};
+function buildGeoJson() {
+  
+  geojson['type'] = 'FeatureCollection';
+  geojson['crs'] = {'type': 'name',
+                    'properties': {
+                      'name': 'EPSG:3857',
+                      }
+                    };
+  geojson['features'] = [];
+  $.getJSON({
     url: `/getPoints`,
-    format: new GeoJSON(),
-  }),
-//  style: function (feature) {
-//    return style[feature.getGeometry().getType()];
-//  style: styleFunction,
-//  },
+    success: data => {
+        console.log(data);
+      //  location.reload();
+        for (var k in data) {
+        var newFeature = {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates" : [(data[k][1]), (data[k][2])]
+          },
+          "properties": {
+            "name": data[k][3]
+          },
+        }
+        geojson['features'].push(newFeature);
+      }
+    }
+  })
+  return geojson;
+};
+buildGeoJson();
+console.log('here is the new brian: ',geojson);  
+///////////////////////////////////////////////////////////
+
+var pointSource = new VectorSource({
+  features: new GeoJSON().readFeatures(geojson),
 });
 
-////////////////////////////////////
+var pointLayer = new VectorLayer({
+  source: pointSource,
+  style: function (feature) {
+  return style[feature.getGeometry().getType()];
+  },
+  //style: styleFunction,
+});
+
+//////////////////////////////////// Layer ////////////////////////////
 var baselayer = new TileLayer({
     source: new OSM()
     });
@@ -129,6 +155,18 @@ var vectorSource = new VectorSource({
 var vectorLayer = new VectorLayer({
     source: vectorSource,
     });
+
+    var gpxLayer = new VectorLayer({
+      source: new VectorSource({
+        url: 'static/data/track_harz.gpx',
+        format: new GPX(),
+      }),
+      style: function (feature) {
+        return style[feature.getGeometry().getType()];
+      },
+    });
+    
+////////////////////////////////
 
 var map = new Map({
   target: 'map',
@@ -170,7 +208,7 @@ function showInfo(event) {
     return;
   }
   const properties = features[0].getProperties();
-  info.innerText = JSON.stringify(properties['properties', null, 2);
+  info.innerText = JSON.stringify(properties['name'], null, 2);
   info.style.opacity = 1;
 }
 

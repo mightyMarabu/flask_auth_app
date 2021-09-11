@@ -55,19 +55,39 @@ def getPoints():
         cursor = db.cursor()
         cursor.execute("SELECT * FROM Point;") 
         result = cursor.fetchall() 
-        #return jsonify({"points": result})
-        return jsonify(
-                        {
-                        "type": "Feature",
-                        "geometry": {
-                            "type": "Point",
-                            "coordinates": [result[0][1], result[0][2]]
-                        },
-                        "properties": {
-                            "name": result[0][3]
-                        }
-                        }
-        )
+        print (result)
+    #    return jsonify(result)
+        return json.dumps(result), {'ContentType':'application/json'}
+       # points = jsonify(
+       #                 {
+       #                 "type": "Feature",
+       #                 "geometry": {
+       #                     "type": "Point",
+       #                     "coordinates": [result[0][1], result[0][2]]
+       #                 },
+       #                 "properties": {
+       #                     "name": result[0][3]
+       #                 }
+       #                 }
+       # )
+       
+       # multi = []
+       # for point in result:
+       #     single =  {
+       #                 "type": "Feature",
+       #                 "geometry": {
+       #                     "type": "Point",
+       #                     "coordinates": [point[1], point[2]]
+       #                 },
+       #                 "properties": {
+       #                     "name": point[3]
+       #                 }
+       #              }        
+       #     multi.append(single)
+        
+        #points = json.dumps(multi)
+        #return multi, {'ContentType':'application/json'}
+        #return jsonify(points)
 
 ##########################################################################
 
