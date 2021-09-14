@@ -15,10 +15,9 @@ import {Map, View} from 'ol';
 
 import Feature from 'ol/Feature';
 
-import Overlay from 'ol/Overlay';
 import Point from 'ol/geom/Point';
 //import TileJSON from 'ol/source/TileJSON';
-import {OSM, Stamen, Vector as VSource, TileJSON} from 'ol/source';
+import {OSM, Stamen} from 'ol/source';
 import TileWMS from 'ol/source/TileWMS';
 //import OSM from 'ol/source/OSM';
 import VectorSource from 'ol/source/Vector';
