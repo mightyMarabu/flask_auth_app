@@ -1,5 +1,7 @@
 const path = require('path');
 
+const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
+
 module.exports = {
   mode: 'development',
   entry: './src/my.js',
@@ -7,4 +9,7 @@ module.exports = {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'static'),
   },
+  plugins: [
+    new NodePolyfillPlugin()
+  ]
 };
