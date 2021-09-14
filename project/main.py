@@ -56,38 +56,33 @@ def getPoints():
         cursor.execute("SELECT * FROM Point;") 
         result = cursor.fetchall() 
         print (result)
-    #    return jsonify(result)
-        return json.dumps(result), {'ContentType':'application/json'}
-       # points = jsonify(
-       #                 {
-       #                 "type": "Feature",
-       #                 "geometry": {
-       #                     "type": "Point",
-       #                     "coordinates": [result[0][1], result[0][2]]
-       #                 },
-       #                 "properties": {
-       #                     "name": result[0][3]
-       #                 }
-       #                 }
-       # )
-       
-       # multi = []
-       # for point in result:
-       #     single =  {
-       #                 "type": "Feature",
-       #                 "geometry": {
-       #                     "type": "Point",
-       #                     "coordinates": [point[1], point[2]]
-       #                 },
-       #                 "properties": {
-       #                     "name": point[3]
-       #                 }
-       #              }        
-       #     multi.append(single)
-        
-        #points = json.dumps(multi)
-        #return multi, {'ContentType':'application/json'}
-        #return jsonify(points)
+        points = []
+        for r in result:
+            print (r)
+            point = {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [r[1], r[2]]
+                        },
+                    "properties": {
+                        "name": r[3]
+                        }
+                    }
+            #print (point)
+            points.append(point)           
+        #print (points)
+        geojson = {"type": "FeatureCollection",
+                   "crs": {"type": "name",
+                            "properties": {
+                            "name": "EPSG:4326",
+                            }
+                        },
+                    "features": points
+        }
+        print (geojson)
+        return geojson, {'ContentType':'application/json'}
+
 
 ##########################################################################
 
