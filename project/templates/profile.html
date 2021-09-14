@@ -2,6 +2,56 @@
 
 {% block content %}
 <h1 class="title">
-  Welcome,  {{ name }}!
+  Willkommen,  {{ name }}!
 </h1>
+<div class="column" style="background-color: rgb(235, 235, 235); margin: 10 px; size: 90%;">
+  <p style="text-align: justify;">auf dieser Seite können Sie Punkte in einer Datenbank speichern und bekommen Sie dann auf der Karte angezeigt. Die Punktinformationen werden sichtbar, sobald Sie die Maus über den Punkt auf der Karte bewegen.<br>
+    
+    Zunächst vergeben Sie bitte einen Namen und klicken dann in der Karte auf die gewünschte Stelle. Die Koordinaten werden dann mit den Punktinformationen in einer Datenbank gespeichert. <br>
+
+    Die Grundkarte basiert auf OpenStreetMap Daten. <br>
+
+    Zusätzlich ist das Regenradar des DWD als WebMapService eingebunden.
+  </p>
+</div>
+<div class="column"></div>
+<div class="columns">
+  <div class="column">
+    <div id="map">
+      <pre id="info"></pre>
+<!--      <script>
+      map.on('pointermove', function(evt) {
+        if (evt.dragging){
+            return;
+        }
+      });
+    </script>
+-->
+    </div>
+  </div>
+  <div class="column is-one-third">
+    
+      <div class="field">
+        <div class="control">
+          <input class="input is-large" type="text" id="pointName" placeholder="Punktname">
+        </div>
+      </div>
+      
+    <!--
+    <form method="POST" action="/test">
+      <div class="field">
+        <div class="control">
+          <input class="input is-large" type="text" name="something" placeholder="erst Punktnamen vergeben und dann auf der Karte klicken.">
+        </div>
+      </div>
+      
+      <button class="button is-block is-info is-large is-fullwidth">In Datenbank speichern.</button>        
+      
+    </form>
+    -->
+  </div>
+ 
+</div>
+<script src="{{ url_for('static', filename='bundle.js') }}"></script>
+
 {% endblock %}

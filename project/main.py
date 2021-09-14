@@ -22,6 +22,11 @@ def index():
 def profile():
     return render_template('profile.html', name=current_user.name)
 
+@main.route('/contact')
+@login_required
+def contact():
+    return render_template('contact.html', name=current_user.name)
+
 @main.route('/test')
 def test():
     return render_template('test.html')
@@ -66,7 +71,8 @@ def getPoints():
                         "coordinates": [r[1], r[2]]
                         },
                     "properties": {
-                        "name": r[3]
+                        "name": r[3],
+                        "description" : r[4]
                         }
                     }
             #print (point)
