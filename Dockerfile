@@ -3,9 +3,15 @@ FROM ubuntu:latest
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt update
-RUN apt -y install git npm
-RUN apt -y install python3-pip python3-dev build-essential
 
+RUN apt-get update
+RUN apt-get -y install curl gnupg
+RUN curl -sL https://deb.nodesource.com/setup_14.x  | bash -
+RUN apt-get -y install nodejs
+RUN apt -y install git
+RUN npm install -g npm
+RUN apt -y install python3-pip python3-dev build-essential
+RUN apt update && apt upgrade -y
 WORKDIR /
 
 RUN pip3 install --upgrade pip
@@ -28,3 +34,4 @@ RUN cd ..
 CMD ["sh", "flask_auth_app/start.sh"]
 #RUN export FLASK_APP=project
 #RUN flask run
+
