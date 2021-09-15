@@ -9,7 +9,7 @@ RUN apt-get -y install curl gnupg
 RUN curl -sL https://deb.nodesource.com/setup_14.x  | bash -
 RUN apt-get -y install nodejs
 RUN apt -y install git
-RUN npm install -g npm
+#RUN npm install -g npm
 RUN apt -y install python3-pip python3-dev build-essential
 RUN apt update && apt upgrade -y
 WORKDIR /
@@ -20,7 +20,7 @@ RUN pip3 install flask_login flask_sqlalchemy marshmallow-sqlalchemy flask-marsh
 
 RUN git clone https://github.com/mightyMarabu/flask_auth_app.git
 
-RUN cd flask_auth_app/project/ && npm install --save-dev webpack && npm install ol --save
+RUN cd flask_auth_app/project/ && npm install --save-dev webpack && npm install ol --save && npm install node-polyfill-webpack-plugin --save
 
 #RUN npm install --save-dev webpack
 #RUN npm install ol --save

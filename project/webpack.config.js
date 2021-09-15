@@ -11,5 +11,10 @@ module.exports = {
   },
   plugins: [
     new NodePolyfillPlugin()
-  ]
+  ],
+  resolve: {
+    fallback: {
+        "fs": false
+    },
+  }
 };
