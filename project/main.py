@@ -119,5 +119,12 @@ def saveMyJsonToPostgres():
 
   
 
- #   return redirect(url_for('main.test'))
+
     
+#if __name__ == '__main__':
+    
+#app.run
+#(host='0.0.0.0') 
+##Stevie says:* Running on 
+#http://0.0.0.0:5000/
+ 
