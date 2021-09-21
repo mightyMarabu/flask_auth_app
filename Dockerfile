@@ -16,17 +16,18 @@ RUN apt update && apt upgrade -y
 RUN pip3 install --upgrade pip
 RUN pip3 install flask numpy requests pandas psycopg2-binary mysql-connector-python pymysql
 RUN pip3 install flask_login flask_sqlalchemy marshmallow-sqlalchemy flask-marshmallow
+RUN pip3 install python-dotenv
 
 RUN git clone https://github.com/mightyMarabu/flask_auth_app.git
 
-RUN cd flask_auth_app/project/
-
+#RUN cd /flask_auth_app/project/
 WORKDIR /flask_auth_app/project
-
 RUN npm install 
 RUN npm run build
 #RUN npm install --save-dev webpack
 #RUN npm install ol --save
+WORKDIR /flask_auth_app/
+
 
 EXPOSE 80 5000
 
@@ -38,4 +39,4 @@ ENV NAME world
 #RUN export FLASK_APP=project 
 #RUN flask run
 #ENTRYPOINT [ "flask" ]
-CMD ["flask","run", "--host=0.0.0.0", "--port=5000"]
+CMD ["flask","run","--host=0.0.0.0","--port=5000"]
