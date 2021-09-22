@@ -20,23 +20,16 @@ RUN pip3 install python-dotenv
 
 RUN git clone https://github.com/mightyMarabu/flask_auth_app.git
 
-#RUN cd /flask_auth_app/project/
 WORKDIR /flask_auth_app/project
+
 RUN npm install 
 RUN npm run build
-#RUN npm install --save-dev webpack
-#RUN npm install ol --save
+
 WORKDIR /flask_auth_app/
 
 
 EXPOSE 80 5000
 
 ENV NAME world
-#CMD [ "npm", "run", "watch" ]
-#RUN npm run build
-#RUN cd ..
-#CMD ["sh", "flask_auth_app/start.sh"]
-#RUN export FLASK_APP=project 
-#RUN flask run
-#ENTRYPOINT [ "flask" ]
+
 CMD ["flask","run","--host=0.0.0.0","--port=5000"]
