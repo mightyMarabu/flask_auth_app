@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify
+from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify, current_app
 from flask_login import login_required, current_user
 
 from . import db
@@ -10,6 +10,8 @@ import json
 
 import os.path
 import sqlite3
+
+from werkzeug.utils import secure_filename
 
 main = Blueprint('main', __name__)
 
@@ -41,7 +43,7 @@ def form_post():
     return jsonify("Data saved to sqlite-DB!")
 
 
-########################################################################
+############################ db ############################################
 @main.route('/savePoint/<x>/<y>/<pointName>/', methods=['POST','GET'])
 def saveMyPoint(x,y,pointName):
     #something = request.form.get('something')
@@ -90,7 +92,7 @@ def getPoints():
         return geojson, {'ContentType':'application/json'}
 
 
-##########################################################################
+################################### test #######################################
 
 @main.route('/test1', methods=['POST'])
 def json_post():
@@ -117,7 +119,48 @@ def saveMyJsonToPostgres():
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
     #return jsonify("data saved!")
 
-  
+########################### upload #############################################
+UPLOAD_FOLDER = 'project/static/data/'
+ALLOWED_EXTENSIONS = {'gpx', 'txt'}
+
+#current_app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+#app = Flask(__name__)
+
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+@main.route('/upload', methods=['GET', 'POST'])
+def upload_file():
+    current_app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+    if request.method == 'POST':
+        # check if the post request has the file part
+        print (request.files)
+        if 'file' not in request.files:
+            flash('No file part')
+            print('Nothing inside')
+            print(request.url)
+            #return redirect(request.url)
+        file = request.files['file']
+        print (file)
+        print ("Filename:", file.filename)
+        # If the user does not select a file, the browser submits an
+        # empty file without a filename.
+        if file.filename == '':
+            flash('No selected file')
+            print('No selected file')
+            return redirect(request.url)
+        print (allowed_file(file.filename))
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(current_app.config['UPLOAD_FOLDER'],filename))
+            print('saved file somewhere')
+            #return redirect(url_for('download_file', name=filename))
+    return render_template('upload.html', name=current_user.name)
+    
+
+################################################################################
 
 
     

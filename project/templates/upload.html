@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="columns">
+<div class="column">
+    <p>Soo, {{ name }}, du willst also was hochladen? <br> Bitte!</p>
+</div>
+<div class="column" style="text-align: left;">
+    <h2>Upload new File</h2>
+        <form method=post enctype=multipart/form-data>
+        <input type=file name=file>
+        <input type=submit value=Upload>
+        </form>
+</div>
+
+</div>
+{% endblock %}
